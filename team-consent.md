@@ -1,0 +1,1 @@
+We have made contact and begun work on the assignment.
