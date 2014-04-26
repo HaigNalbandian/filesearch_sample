@@ -7,6 +7,6 @@
   + USC ID: 5395646937
 
 **Developer 2**:
-  + Name: Traveler VII
-  + USC Email: traveler@usc.edu
-  + USC ID: 9876543210
+  + Name: Haig Nalbandian
+  + USC Email: hnalband@usc.edu
+  + USC ID: 6478357697
