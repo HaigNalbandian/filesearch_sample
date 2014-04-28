@@ -21,8 +21,6 @@
 *.app
 
 # Other stuff
-Makefile
-*.pro
 team_project_123
 moc*
 *~
