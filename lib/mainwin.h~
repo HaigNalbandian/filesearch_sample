@@ -1,0 +1,62 @@
+#ifndef MAINWIN_H
+#define MAINWIN_H
+
+#include <QWidget>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QListWidget>
+#include <QRadioButton>
+#include <map>
+#include <string>
+#include "viewwin.h"
+#include "lib/webpage.h"
+#include "lib/smartset.h"
+
+struct PRComp
+{
+  bool operator()(WebPage* lhs, WebPage* rhs){
+    return (lhs->get_pr()) > (rhs->get_pr());
+  }
+};
+
+struct AlphComp
+{
+  bool operator()(WebPage* lhs, WebPage* rhs){
+    return (lhs->filename()) < (rhs->filename());
+  }
+};
+
+
+class MainWin : public  QWidget // you can also try QMainWindow
+{
+	Q_OBJECT
+
+	public:
+        MainWin(char* ifname);
+		string input_name;
+		~MainWin();
+		void rank_pages(SmartSet<WebPage*>& s);
+
+	protected:
+		std::map<std::string, WebPage*> filename_to_page;
+		std::map<std::string, SmartSet<WebPage*> > input_to_results;
+
+	private slots:
+		void searchClicked();
+		void showAbout();
+		void itemClicked(QListWidgetItem*);
+
+	private:
+		QPushButton* aboutButton;
+		QPushButton* searchButton;
+		QPushButton* quitButton;
+		QLineEdit* queryText;
+		QListWidget* list;
+		QRadioButton* alpha_radio_btn;
+		QRadioButton* pr_radio_btn;
+
+		//store other window
+		ViewWin* view;
+};
+
+#endif
