@@ -8,9 +8,11 @@
 #include <QRadioButton>
 #include <map>
 #include <string>
+#include <unordered_map>
 #include "viewwin.h"
 #include "webpage.h"
 #include "smartset.h"
+#include "advertiser.h"
 
 struct PRComp
 {
@@ -32,7 +34,7 @@ class MainWin : public  QWidget // you can also try QMainWindow
 	Q_OBJECT
 
 	public:
-        MainWin(char* ifname);
+        MainWin(char* ifname, char* advert_input);
 		string input_name;
 		~MainWin();
 		void rank_pages(SmartSet<WebPage*>& s);
@@ -57,6 +59,11 @@ class MainWin : public  QWidget // you can also try QMainWindow
 
 		//store other window
 		ViewWin* view;
+
+		//store advertisers
+		vector<Advertiser*> advertisers_vec;
+		unordered_map<string, Advertiser*> advertisers;
+		void parseAdvertisers(char*);
 };
 
 #endif

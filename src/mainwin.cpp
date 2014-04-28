@@ -13,7 +13,7 @@
 
 using namespace std;
 
-MainWin::MainWin (char* ifname) : input_name(ifname)
+MainWin::MainWin (char* ifname, char* advert_input) : input_name(ifname)
 {
   const char* filename = (this->input_name).c_str();
 	parse_data(filename_to_page, input_to_results, filename);
@@ -70,6 +70,8 @@ MainWin::MainWin (char* ifname) : input_name(ifname)
 
 	view = new ViewWin;
 	view->grab_map(filename_to_page);
+
+	parseAdvertisers(advert_input);
 }
 
 MainWin::~MainWin()
@@ -215,4 +217,53 @@ void MainWin::rank_pages(SmartSet<WebPage*>& s)
 	}*/
 
 		
+}
+
+void MainWin::parseAdvertisers(char* input)
+{
+	ifstream ifile (input);
+	string temp;
+
+	//read in number of advertisers
+	getline(ifile, temp);
+	int num_advertisers;
+	stringstream ss (temp);
+	ss >> num_advertisers;
+
+	for (int i=0; i< num_advertisers; ++i){
+		getline(ifile, temp);
+		stringstream temp_stream (temp);
+		string keyword;
+		double bid;
+		string temp_name, full_name= "";
+		temp_stream >> keyword;
+		convert_to_lowercase(keyword);
+		temp_stream >> bid;
+		while (temp_stream >> temp_name){
+			full_name += (" " + temp_name);
+		}
+		unordered_map<string, Advertiser*>::iterator it = advertisers.find(full_name);
+		if (it != advertisers.end()){
+			Advertiser* ptr_to_advertiser = it->second;
+			ptr_to_advertiser->add_ad(keyword, bid);	
+		}
+		else{
+		//add name to hash table
+			Advertiser* ptr_to_advertiser = new Advertiser(full_name);
+			advertisers.emplace(full_name, ptr_to_advertiser);
+			ptr_to_advertiser->add_ad(keyword, bid);
+		}
+	}
+
+	for (unordered_map<string, Advertiser*>::iterator it = advertisers.begin(); it != advertisers.end(); ++it){
+	cout << "Name: " << it->second->getName() << endl;
+	vector<Ad> vec;
+	vec = it->second->getAds();
+	for (vector<Ad>::iterator jt = vec.begin(); jt != vec.end(); ++jt){
+		cout << jt->keyword << " " << jt->bid << endl;
+	}
+	cout << endl;
+	}
+
+	ifile.close();
 }
