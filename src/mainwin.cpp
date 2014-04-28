@@ -252,6 +252,7 @@ void MainWin::parseAdvertisers(char* input)
 			Advertiser* ptr_to_advertiser = new Advertiser(full_name);
 			advertisers.emplace(full_name, ptr_to_advertiser);
 			ptr_to_advertiser->add_ad(keyword, bid);
+			advertisers_vec.push_back(ptr_to_advertiser);
 		}
 	}
 
@@ -263,6 +264,10 @@ void MainWin::parseAdvertisers(char* input)
 		cout << jt->keyword << " " << jt->bid << endl;
 	}
 	cout << endl;
+
+	for (vector<Advertiser*>::iterator it = advertisers_vec.begin(); it != advertisers_vec.end(); ++it){
+		cout << (*it)->getName() << endl;
+	}
 	}
 
 	ifile.close();
