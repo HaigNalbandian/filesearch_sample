@@ -239,6 +239,7 @@ void MainWin::parseAdvertisers(char* input)
 		temp_stream >> keyword;
 		convert_to_lowercase(keyword);
 		temp_stream >> bid;
+		temp_stream >> full_name;
 		while (temp_stream >> temp_name){
 			full_name += (" " + temp_name);
 		}
