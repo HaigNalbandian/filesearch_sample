@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include <QListWidget>
 #include <QRadioButton>
+#include <QLabel>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -66,9 +67,10 @@ class MainWin : public  QWidget // you can also try QMainWindow
 		QPushButton* quitButton;
 		QLineEdit* queryText;
 		QListWidget* list;
+		QListWidget* ad_list;
 		QRadioButton* alpha_radio_btn;
 		QRadioButton* pr_radio_btn;
-
+		QLabel* ad_label;
 		//store other window
 		ViewWin* view;
 

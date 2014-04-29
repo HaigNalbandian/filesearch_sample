@@ -15,9 +15,11 @@ using namespace std;
 
 MainWin::MainWin (char* ifname, char* advert_input) : input_name(ifname)
 {
-  const char* filename = (this->input_name).c_str();
+	//PARSE DATA
+	const char* filename = (this->input_name).c_str();
 	parse_data(filename_to_page, input_to_results, filename);
 
+	//CREATE BUTTONS
 	aboutButton = new QPushButton("&About");
 	quitButton = new QPushButton("&Quit");
 	searchButton = new QPushButton("&Search");
@@ -25,15 +27,25 @@ MainWin::MainWin (char* ifname, char* advert_input) : input_name(ifname)
 	aboutButton->setFixedSize(75, 40);
 	quitButton->setFixedSize(75, 40);
 
+	//CREATE LINE EDIT
 	queryText = new QLineEdit;
 
+	//CREATE LABEL FOR ADS
+	ad_label = new QLabel("Sponsored Ads");
+
+	//CREATE LIST FOR ADS
+	ad_list = new QListWidget;
+	ad_list->setFixedHeight(60);
+
+	//CREATE LIST FOR RESULTS
 	list = new QListWidget;
 
+	//CREATE RADIO BUTTONS FOR SEARCH
 	alpha_radio_btn = new QRadioButton("Alphabetical");
 	pr_radio_btn = new QRadioButton("Page Rank");
 	pr_radio_btn ->setChecked(true);
 	
-
+	//CREATE LAYOUTS
 	QFormLayout* fLayout = new QFormLayout;
 	fLayout->addRow("Search:", queryText);
 
@@ -45,6 +57,8 @@ MainWin::MainWin (char* ifname, char* advert_input) : input_name(ifname)
 	radiorow->addWidget(alpha_radio_btn);
 	radiorow->addWidget(pr_radio_btn);
 	
+	QHBoxLayout* adrow = new QHBoxLayout;
+	adrow->addWidget(ad_list);
 
 	QHBoxLayout* midrow = new QHBoxLayout;
 	midrow->addWidget(list);
@@ -53,24 +67,30 @@ MainWin::MainWin (char* ifname, char* advert_input) : input_name(ifname)
 	botrow->addWidget(quitButton,1, Qt::AlignRight);
 	botrow->addWidget(aboutButton,0, Qt::AlignRight);
 
+	//ADD EVERYTHING TO THE MAIN LAYOUT
 	QVBoxLayout* mainLayout = new QVBoxLayout;
 	mainLayout->addLayout(toprow);
 	mainLayout->addLayout(radiorow);
 	mainLayout->addLayout(midrow);
+	mainLayout->addWidget(ad_label);
+	mainLayout->addLayout(adrow);
 	mainLayout->addLayout(botrow);
 
-	//connect buttons
+	//CONNECT BUTTONS
 	QObject::connect(aboutButton, SIGNAL(clicked()), this, SLOT(showAbout()));
 	QObject::connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
 	QObject::connect(searchButton, SIGNAL(clicked()), this, SLOT(searchClicked()));
 	QObject::connect(queryText, SIGNAL(returnPressed()), this, SLOT(searchClicked()));
 	QObject::connect(list, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(itemClicked(QListWidgetItem*)));
 
+	//SET THE LAYOUT
 	setLayout(mainLayout);
 
+	//GIVE VIEW WINDOW ACCESS TO MAP CONVERTING FILENAMES TO MEM ADDRESSES OF WEBPAGES
 	view = new ViewWin;
 	view->grab_map(filename_to_page);
 
+	//READ IN THE ADVERTISER FILE
 	parseAdvertisers(advert_input);
 }
 
