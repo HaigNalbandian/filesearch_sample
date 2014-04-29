@@ -359,7 +359,9 @@ void MainWin::search_advertisers(vector<Advertiser*>& vec, string query)
 				double ad_bid = at->bid;
 				if (ad_key == curr_key){
 					matching_advertiser_set.insert(curr_advertiser);
-					curr_advertiser->setHighestBid(ad_bid);
+					if (curr_advertiser->getHighestBid() < ad_bid){
+						curr_advertiser->setHighestBid(ad_bid);
+					}
 				}
 			}
 		}
