@@ -153,6 +153,10 @@ void MainWin::searchClicked(){
        	QString qt_filename(filename.c_str());
        	list->addItem(qt_filename);
     }
+
+	//NOW DO ADVERTISER SEARCH
+	vector<Advertiser*> matching_advertisers;
+	search_advertisers(matching_advertisers, my_str);
 }
 
 void MainWin::itemClicked(QListWidgetItem* item)
@@ -277,7 +281,7 @@ void MainWin::parseAdvertisers(char* input)
 		}
 	}
 
-	for (unordered_map<string, Advertiser*>::iterator it = advertisers.begin(); it != advertisers.end(); ++it){
+/*	for (unordered_map<string, Advertiser*>::iterator it = advertisers.begin(); it != advertisers.end(); ++it){
 	cout << "Name: " << it->second->getName() << endl;
 	vector<Ad> vec;
 	vec = it->second->getAds();
@@ -289,7 +293,53 @@ void MainWin::parseAdvertisers(char* input)
 	for (vector<Advertiser*>::iterator it = advertisers_vec.begin(); it != advertisers_vec.end(); ++it){
 		cout << (*it)->getName() << endl;
 	}
-	}
+	}*/
 
 	ifile.close();
+}
+
+void MainWin::search_advertisers(vector<Advertiser*>& vec, string query)
+{
+	convert_to_lowercase(query);
+	//STEP (1), create a set of keywords
+	set<string> keywords;
+	if (query[0] == 'o' && query[1] == 'r' && query[3] == '('){
+		query.erase(query.begin());	
+		query.erase(query.begin());	
+		query.erase(query.begin());
+		query.erase(query.begin());
+		query.erase(query.end()-1);	
+	}
+	string curr_word = "";
+	for (unsigned int i=0; i< query.size(); ++i){
+		if (isalnum(query[i])){
+			curr_word+=query[i];
+		}
+		else{
+			if (curr_word != ""){
+				keywords.insert(curr_word);
+				curr_word = "";
+			}
+		}
+	}
+	if (curr_word != ""){
+		keywords.insert(curr_word);	
+	}
+	
+	//STEP (2), iterate over keywords, looking for them in advertisers bids
+	for (set<string>::iterator st = keywords.begin(); st != keywords.end(); ++st){
+		string curr_key = *st;
+		for (vector<Advertiser*>::iterator it = advertisers_vec.begin(); it != advertisers_vec.end(); ++it){
+			Advertiser* curr_advertiser = *it;
+			curr_advertiser->setHighestBid(-1);
+			for (vector<Ad>::iterator at = (curr_advertiser->getAds()).begin(); at != (curr_advertiser->getAds()).end(); ++at){
+				string ad_key = at->keyword;
+				double ad_bid = at->bid;
+				if (ad_key == curr_key){
+					vec.push_back(curr_advertiser);
+					curr_advertiser->setHighestBid(ad_bid);
+				}
+			}
+		}
+	} 	
 }

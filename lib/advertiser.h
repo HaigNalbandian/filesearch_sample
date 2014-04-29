@@ -21,7 +21,7 @@ class Advertiser{
 			return name;
 		}
 
-		const vector<Ad>& getAds(){
+		vector<Ad>& getAds(){
 			return ads;
 		}
 
@@ -32,6 +32,10 @@ class Advertiser{
 	
 		double getHighestBid(){
 			return highest_bid;	
+		}
+		
+		void setHighestBid(double new_highest){
+			highest_bid = new_highest;
 		}
 
 	private:

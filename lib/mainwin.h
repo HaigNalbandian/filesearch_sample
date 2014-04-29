@@ -78,6 +78,7 @@ class MainWin : public  QWidget // you can also try QMainWindow
 		vector<Advertiser*> advertisers_vec;
 		unordered_map<string, Advertiser*> advertisers;
 		void parseAdvertisers(char*);
+		void search_advertisers(vector<Advertiser*>&, string);
 };
 
 #endif
