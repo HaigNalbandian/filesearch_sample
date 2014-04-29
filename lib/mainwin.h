@@ -36,9 +36,9 @@ struct NameComp{
 	}
 };
 
-struct BidSort{
+struct BidComp{
 	bool operator()(Advertiser* lhs, Advertiser* rhs){
-		return (lhs->getHighestBid() < rhs->getHighestBid());
+		return (lhs->getHighestBid() > rhs->getHighestBid());
 	}
 };
 

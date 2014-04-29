@@ -157,6 +157,13 @@ void MainWin::searchClicked(){
 	//NOW DO ADVERTISER SEARCH
 	vector<Advertiser*> matching_advertisers;
 	search_advertisers(matching_advertisers, my_str);
+	
+	//SORT BY HIGHEST BID
+	BidComp comp;
+	mergeSort<Advertiser*, BidComp>(matching_advertisers, comp);
+	for (vector<Advertiser*>::iterator it= matching_advertisers.begin(); it != matching_advertisers.end(); ++it){
+		cout << (*it)->getName() << " offered " << (*it)->getHighestBid() << endl;
+	}
 }
 
 void MainWin::itemClicked(QListWidgetItem* item)
@@ -310,6 +317,14 @@ void MainWin::search_advertisers(vector<Advertiser*>& vec, string query)
 		query.erase(query.begin());
 		query.erase(query.end()-1);	
 	}
+	else if(query[0] == 'a' && query[1] == 'n' && query[2] == 'd' && query[4] == '('){
+		query.erase(query.begin());	
+		query.erase(query.begin());	
+		query.erase(query.begin());
+		query.erase(query.begin());
+		query.erase(query.begin());
+		query.erase(query.end()-1);		
+	}
 	string curr_word = "";
 	for (unsigned int i=0; i< query.size(); ++i){
 		if (isalnum(query[i])){
@@ -327,11 +342,13 @@ void MainWin::search_advertisers(vector<Advertiser*>& vec, string query)
 	}
 	
 	//STEP (2), iterate over keywords, looking for them in advertisers bids
+	for (vector<Advertiser*>::iterator it = advertisers_vec.begin(); it != advertisers_vec.end(); ++it){
+		(*it)->setHighestBid(-1);
+	}
 	for (set<string>::iterator st = keywords.begin(); st != keywords.end(); ++st){
 		string curr_key = *st;
 		for (vector<Advertiser*>::iterator it = advertisers_vec.begin(); it != advertisers_vec.end(); ++it){
 			Advertiser* curr_advertiser = *it;
-			curr_advertiser->setHighestBid(-1);
 			for (vector<Ad>::iterator at = (curr_advertiser->getAds()).begin(); at != (curr_advertiser->getAds()).end(); ++at){
 				string ad_key = at->keyword;
 				double ad_bid = at->bid;
