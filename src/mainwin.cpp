@@ -13,7 +13,7 @@
 
 using namespace std;
 
-MainWin::MainWin (char* ifname, char* advert_input) : input_name(ifname)
+MainWin::MainWin (char* ifname, char* advert_input, char* advert_output) : input_name(ifname), ad_output(advert_output)
 {
 	//PARSE DATA
 	const char* filename = (this->input_name).c_str();
@@ -97,6 +97,7 @@ MainWin::MainWin (char* ifname, char* advert_input) : input_name(ifname)
 
 MainWin::~MainWin()
 {
+	printBill();
 	delete aboutButton;
 	delete quitButton;
 	delete searchButton;
@@ -382,4 +383,15 @@ void MainWin::adClicked(QListWidgetItem* ad)
 	QMessageBox::information(this, tr("Advertiser Visit"), message);
 
 	selected_advertiser->charge();
+}
+
+void MainWin::printBill()
+{
+	NameComp comp;
+	mergeSort<Advertiser*, NameComp>(advertisers_vec, comp);
+	ofstream ofile (ad_output);
+	for (vector<Advertiser*>::iterator it=advertisers_vec.begin(); it != advertisers_vec.end(); ++it){
+		ofile << (*it)->getName() << endl << (*it)->getAmountOwed() << endl << endl;
+	}
+	ofile.close();
 }

@@ -32,7 +32,7 @@ struct AlphComp
 //FUNCTORS FOR ADVERTISER CLASS
 struct NameComp{
 	bool operator()(Advertiser* lhs, Advertiser* rhs){
-		return (lhs->getName() < rhs->getName());
+		return (lhs->getName() > rhs->getName());
 	}
 };
 
@@ -47,7 +47,7 @@ class MainWin : public  QWidget // you can also try QMainWindow
 	Q_OBJECT
 
 	public:
-        MainWin(char* ifname, char* advert_input);
+        MainWin(char* ifname, char* advert_input, char* advert_output);
 		string input_name;
 		~MainWin();
 		void rank_pages(SmartSet<WebPage*>& s);
@@ -80,6 +80,8 @@ class MainWin : public  QWidget // you can also try QMainWindow
 		unordered_map<string, Advertiser*> advertisers;
 		void parseAdvertisers(char*);
 		void search_advertisers(vector<Advertiser*>&, string);
+		char* ad_output;
+		void printBill();
 };
 
 #endif
