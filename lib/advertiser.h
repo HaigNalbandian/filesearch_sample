@@ -13,7 +13,9 @@ struct Ad{
 class Advertiser{
 	public:
 		Advertiser();
-		Advertiser(string n) : name(n){}
+		Advertiser(string n) : name(n){
+			amount_owed = 0;
+		}
 		~Advertiser();
 
 		//accessor methods
@@ -37,11 +39,21 @@ class Advertiser{
 		void setHighestBid(double new_highest){
 			highest_bid = new_highest;
 		}
+	
+		void charge(){
+			amount_owed+= highest_bid;
+		}
+
+		//for debugging, print how much I owe
+		double getAmountOwed(){
+			return amount_owed;
+		}
 
 	private:
 		string name;
 		vector<Ad> ads;
 		double highest_bid;
+		double amount_owed;
 };
 
 #endif

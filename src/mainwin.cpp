@@ -82,6 +82,7 @@ MainWin::MainWin (char* ifname, char* advert_input) : input_name(ifname)
 	QObject::connect(searchButton, SIGNAL(clicked()), this, SLOT(searchClicked()));
 	QObject::connect(queryText, SIGNAL(returnPressed()), this, SLOT(searchClicked()));
 	QObject::connect(list, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(itemClicked(QListWidgetItem*)));
+	QObject::connect(ad_list, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(adClicked(QListWidgetItem*)));
 
 	//SET THE LAYOUT
 	setLayout(mainLayout);
@@ -369,4 +370,16 @@ void MainWin::search_advertisers(vector<Advertiser*>& vec, string query)
 	for (set<Advertiser*>::iterator it = matching_advertiser_set.begin(); it != matching_advertiser_set.end(); ++it){
 		vec.push_back(*it);
 	}	
+}
+
+void MainWin::adClicked(QListWidgetItem* ad)
+{
+	QString advertiser_name_q = ad->text();
+	string advertiser_name = advertiser_name_q.toStdString();
+	Advertiser* selected_advertiser = advertisers[advertiser_name];
+	QString message("You visited an ad by ");
+	message += advertiser_name_q;
+	QMessageBox::information(this, tr("Advertiser Visit"), message);
+
+	selected_advertiser->charge();
 }

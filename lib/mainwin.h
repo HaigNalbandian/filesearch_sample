@@ -60,6 +60,7 @@ class MainWin : public  QWidget // you can also try QMainWindow
 		void searchClicked();
 		void showAbout();
 		void itemClicked(QListWidgetItem*);
+		void adClicked(QListWidgetItem*);
 
 	private:
 		QPushButton* aboutButton;
