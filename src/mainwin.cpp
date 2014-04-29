@@ -154,6 +154,8 @@ void MainWin::searchClicked(){
        	list->addItem(qt_filename);
     }
 
+	ad_list->clear();	
+
 	//NOW DO ADVERTISER SEARCH
 	vector<Advertiser*> matching_advertisers;
 	search_advertisers(matching_advertisers, my_str);
@@ -343,6 +345,8 @@ void MainWin::search_advertisers(vector<Advertiser*>& vec, string query)
 	}
 	
 	//STEP (2), iterate over keywords, looking for them in advertisers bids
+	set<Advertiser*> matching_advertiser_set;
+	
 	for (vector<Advertiser*>::iterator it = advertisers_vec.begin(); it != advertisers_vec.end(); ++it){
 		(*it)->setHighestBid(-1);
 	}
@@ -354,10 +358,13 @@ void MainWin::search_advertisers(vector<Advertiser*>& vec, string query)
 				string ad_key = at->keyword;
 				double ad_bid = at->bid;
 				if (ad_key == curr_key){
-					vec.push_back(curr_advertiser);
+					matching_advertiser_set.insert(curr_advertiser);
 					curr_advertiser->setHighestBid(ad_bid);
 				}
 			}
 		}
-	} 	
+	} 
+	for (set<Advertiser*>::iterator it = matching_advertiser_set.begin(); it != matching_advertiser_set.end(); ++it){
+		vec.push_back(*it);
+	}	
 }
