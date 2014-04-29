@@ -162,7 +162,8 @@ void MainWin::searchClicked(){
 	BidComp comp;
 	mergeSort<Advertiser*, BidComp>(matching_advertisers, comp);
 	for (vector<Advertiser*>::iterator it= matching_advertisers.begin(); it != matching_advertisers.end(); ++it){
-		cout << (*it)->getName() << " offered " << (*it)->getHighestBid() << endl;
+		QString company_name((*it)->getName().c_str());
+		ad_list->addItem(company_name);	
 	}
 }
 
