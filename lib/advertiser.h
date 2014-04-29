@@ -29,10 +29,15 @@ class Advertiser{
 			Ad a(keyword, bid);
 			ads.push_back(a);
 		}
+	
+		double getHighestBid(){
+			return highest_bid;	
+		}
 
 	private:
 		string name;
 		vector<Ad> ads;
+		double highest_bid;
 };
 
 #endif

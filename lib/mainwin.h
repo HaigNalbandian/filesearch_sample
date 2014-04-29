@@ -28,6 +28,18 @@ struct AlphComp
   }
 };
 
+//FUNCTORS FOR ADVERTISER CLASS
+struct NameComp{
+	bool operator()(Advertiser* lhs, Advertiser* rhs){
+		return (lhs->getName() < rhs->getName());
+	}
+};
+
+struct BidSort{
+	bool operator()(Advertiser* lhs, Advertiser* rhs){
+		return (lhs->getHighestBid() < rhs->getHighestBid());
+	}
+};
 
 class MainWin : public  QWidget // you can also try QMainWindow
 {
