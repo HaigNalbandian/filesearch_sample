@@ -32,7 +32,7 @@ struct AlphComp
 //FUNCTORS FOR ADVERTISER CLASS
 struct NameComp{
 	bool operator()(Advertiser* lhs, Advertiser* rhs){
-		return (lhs->getName() > rhs->getName());
+		return (lhs->getName() < rhs->getName());
 	}
 };
 
