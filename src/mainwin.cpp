@@ -189,6 +189,9 @@ void MainWin::itemClicked(QListWidgetItem* item)
 	view->setWindowTitle(s);
 	view->show();
 	view->populate(page_ptr);
+
+	QColor color(187, 190, 191, 255);
+	item->setForeground(color);
 }
 
 void MainWin::rank_pages(SmartSet<WebPage*>& s)
