@@ -90,6 +90,7 @@ MainWin::MainWin (char* ifname, char* advert_input, char* advert_output) : input
 	//GIVE VIEW WINDOW ACCESS TO MAP CONVERTING FILENAMES TO MEM ADDRESSES OF WEBPAGES
 	view = new ViewWin;
 	view->grab_map(filename_to_page);
+	view->grab_visited_pages(&(visited_pages));
 
 	//READ IN THE ADVERTISER FILE
 	parseAdvertisers(advert_input);
@@ -153,7 +154,12 @@ void MainWin::searchClicked(){
     for (vector<WebPage*>::iterator it = final_results.begin(); it!= final_results.end(); ++it){
       	string filename = (*(*it)).filename();
        	QString qt_filename(filename.c_str());
-       	list->addItem(qt_filename);
+	QListWidgetItem* new_item = new QListWidgetItem(qt_filename);
+	if (visited_pages.find(*it) != visited_pages.end()){
+		QColor color(187, 190, 191, 255);
+		new_item->setForeground(color);
+	}
+       	list->addItem(new_item);
     }
 
 	ad_list->clear();	
@@ -178,6 +184,7 @@ void MainWin::itemClicked(QListWidgetItem* item)
 	string str = s.toStdString();
 	
 	WebPage* page_ptr = (filename_to_page.find(str))->second;
+	visited_pages.insert(page_ptr);
 
 	view->setWindowTitle(s);
 	view->show();

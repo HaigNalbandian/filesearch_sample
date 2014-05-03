@@ -20,6 +20,7 @@ class ViewWin : public QWidget
 		void clearWin();
 		void populate(WebPage*);
 		void grab_map(map<string, WebPage*>);
+		void grab_visited_pages(set<WebPage*>*);
 		~ViewWin();
 	private slots:
 		void linkClicked(QListWidgetItem*);
@@ -31,6 +32,9 @@ class ViewWin : public QWidget
 		QLabel* incomingLabel;
 		QLabel* outgoingLabel;
 		map<string, WebPage*> my_map;
+
+		//deal with visited pages
+		set<WebPage*>* visited_pages;
 };
 
 #endif

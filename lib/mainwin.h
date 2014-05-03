@@ -72,6 +72,7 @@ class MainWin : public  QWidget // you can also try QMainWindow
 		QRadioButton* alpha_radio_btn;
 		QRadioButton* pr_radio_btn;
 		QLabel* ad_label;
+
 		//store other window
 		ViewWin* view;
 
@@ -82,6 +83,9 @@ class MainWin : public  QWidget // you can also try QMainWindow
 		void search_advertisers(vector<Advertiser*>&, string);
 		char* ad_output;
 		void printBill();
+
+		//store set of visited pages
+		set<WebPage*> visited_pages;
 };
 
 #endif

@@ -70,13 +70,23 @@ void ViewWin::populate(WebPage* page){
 	for (SmartSet<WebPage*>::iterator it = outgoingLinks.begin(); it!=outgoingLinks.end(); ++it){
 		string my_str = (*it)->filename();
 		QString s = my_str.c_str();
-		outgoing->addItem(s);	
+		QListWidgetItem* new_item = new QListWidgetItem(s);
+		if (visited_pages->find(*it) != visited_pages->end()){
+			QColor color(187, 190, 191, 255);
+			new_item->setForeground(color);
+		}
+		outgoing->addItem(new_item);	
 	}
 
 	for (SmartSet<WebPage*>::iterator it = incomingLinks.begin(); it!=incomingLinks.end(); ++it){
 		string my_str = (*it)->filename();
 		QString s = my_str.c_str();
-		incoming->addItem(s);	
+		QListWidgetItem* new_item = new QListWidgetItem(s);
+		if (visited_pages->find(*it) != visited_pages->end()){
+			QColor color(187, 190, 191, 255);
+			new_item->setForeground(color);
+		}
+		incoming->addItem(new_item);	
 	}
 }
 
@@ -85,6 +95,8 @@ void ViewWin::linkClicked(QListWidgetItem* item)
 	QString s = item->text();
 	string str = s.toStdString();
 	WebPage* page_ptr = (my_map.find(str))->second;
+	visited_pages->insert(page_ptr);
+
 	clearWin();
 	setWindowTitle(s);
 	show();
@@ -96,3 +108,6 @@ void ViewWin::grab_map(map<string, WebPage*> m){
 	my_map = m;
 }
 
+void ViewWin::grab_visited_pages(set<WebPage*>* s){
+	visited_pages = s;
+}
