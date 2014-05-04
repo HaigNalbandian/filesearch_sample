@@ -37,7 +37,6 @@ ViewWin::ViewWin(QWidget *parent) : QWidget(parent)
 
 	QObject::connect(outgoing, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(linkClicked(QListWidgetItem*)));
 	QObject::connect(incoming, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(linkClicked(QListWidgetItem*)));
-	QObject::connect(outgoing, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(
 
 	setLayout(mainLayout);
 }
@@ -93,6 +92,11 @@ void ViewWin::populate(WebPage* page){
 
 void ViewWin::linkClicked(QListWidgetItem* item)
 {
+	QString window_title = this->windowTitle();
+	string win_title = window_title.toStdString();
+	WebPage* old_page = my_map.find(win_title)->second;
+	old_page->set_finish(clock());
+
 	QString s = item->text();
 	string str = s.toStdString();
 	WebPage* page_ptr = (my_map.find(str))->second;
