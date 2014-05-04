@@ -6,6 +6,9 @@
 #include <QLineEdit>
 #include <QListWidget>
 #include <QRadioButton>
+#include <QStringList>
+#include <QStringListModel>
+#include <QCompleter>
 #include <QLabel>
 #include <map>
 #include <string>
@@ -72,6 +75,9 @@ class MainWin : public  QWidget // you can also try QMainWindow
 		QRadioButton* alpha_radio_btn;
 		QRadioButton* pr_radio_btn;
 		QLabel* ad_label;
+		QStringList wordList;
+		QStringListModel* model;
+		QCompleter* completer;
 
 		//store other window
 		ViewWin* view;

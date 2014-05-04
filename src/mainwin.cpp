@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QRadioButton>
 #include <QLineEdit>
+#include <QStringList>
+#include <QCompleter>
 #include <iostream>
 #include <ctime>
 #include "engine.h"
@@ -68,6 +70,12 @@ MainWin::MainWin (char* ifname, char* advert_input, char* advert_output) : input
 	botrow->addWidget(quitButton,1, Qt::AlignRight);
 	botrow->addWidget(aboutButton,0, Qt::AlignRight);
 
+	//deal with autocompleter
+	completer = new QCompleter(wordList);
+	completer->setCaseSensitivity(Qt::CaseInsensitive);
+	model = new QStringListModel();
+	queryText->setCompleter(completer);
+
 	//ADD EVERYTHING TO THE MAIN LAYOUT
 	QVBoxLayout* mainLayout = new QVBoxLayout;
 	mainLayout->addLayout(toprow);
@@ -116,6 +124,11 @@ void MainWin::showAbout()
 void MainWin::searchClicked(){
 	list->clear();
 	QString query = queryText->text();
+	wordList << query;
+
+	model->setStringList(wordList);
+	completer->setModel(model);
+
 	string my_str = query.toStdString();
 	set<WebPage*> results =	doSearch(my_str, input_to_results);
 	
