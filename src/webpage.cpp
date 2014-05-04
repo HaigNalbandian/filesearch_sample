@@ -14,12 +14,12 @@ void convert_to_lowercase(string& s);
 //CONSTRUCTORS
 WebPage::WebPage()
 {
-  time_on_page=0;
+  cumulative_time_on_page=0;
 }
 
 WebPage::WebPage (string filename) : _filename(filename)
 {
-  time_on_page=0;
+  cumulative_time_on_page=0;
 }
 
 //DESTRUCTOR
@@ -130,7 +130,7 @@ bool WebPage::operator==(const WebPage& other) const{
 
 double WebPage::get_pr()
 {
-  return page_rank + page_rank*(time_on_page/total_time);
+  return page_rank;
 }
 
 void WebPage::set_pr(double pr)
@@ -147,10 +147,15 @@ void WebPage::set_start(clock_t begin)
 
 void WebPage::set_time_on_page()
 {
-  time_on_page = (double)(finish-start);
+  double time_on_page = (double)(finish-start);
   time_on_page /= CLOCKS_PER_SEC;
+  cumulative_time_on_page += time_on_page;
+  
   //add this page's time to the total time
   WebPage::total_time+=time_on_page;
+  time_fraction = cumulative_time_on_page/total_time;
+  cout << "Hi, my name is " << filename() << " and I was just opened for " << time_on_page << " seconds." << endl << "That brings my total view time to " << cumulative_time_on_page << " seconds!" << endl;
+  cout << "That's " << time_fraction*100 << " percent of the time spent browsing." << endl;
 } 
 
 void WebPage::set_finish(clock_t closing)
@@ -159,7 +164,9 @@ void WebPage::set_finish(clock_t closing)
   set_time_on_page();
 }
 
-
+double WebPage::get_time_fraction(){
+	return time_fraction;
+}
 
 ostream& operator<<(ostream& os, const WebPage& page)
 {

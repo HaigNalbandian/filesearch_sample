@@ -257,7 +257,18 @@ void MainWin::rank_pages(SmartSet<WebPage*>& s)
 			(*it)->set_pr(sums.front());
 			sums.erase(sums.begin());
 		}
-	}// end iterative for
+	}// end iterative for		
+	for (SmartSet<WebPage*>::iterator it = s.begin(); it != s.end(); ++it){
+		WebPage* curr_page = (*it);
+		double frac = curr_page->get_time_fraction();
+		double old_pr = curr_page->get_pr();
+		double new_pr = old_pr + (old_pr * frac);
+		/*if (frac > 0.000001){	
+			cout << "Time frac: " << frac << endl;
+			cout << "Old PR was " << old_pr << endl << "New PR is " << new_pr << endl;
+		}*/
+		curr_page->set_pr(new_pr);
+	}
 
 	/*//print out page ranks to console
 	cout << "Page Ranks for Most Recent Search" << endl << "---------------------------" << endl;

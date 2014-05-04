@@ -128,7 +128,6 @@ void ViewWin::grab_visited_pages(set<WebPage*>* s){
     }
 void ViewWin::closeEvent(QCloseEvent* event)
 {
-  cout<<"Here?"<<endl;
   writeOutTime();
   event->accept();
 }
