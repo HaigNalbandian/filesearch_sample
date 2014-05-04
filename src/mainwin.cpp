@@ -184,6 +184,9 @@ void MainWin::itemClicked(QListWidgetItem* item)
 	string str = s.toStdString();
 	
 	WebPage* page_ptr = (filename_to_page.find(str))->second;
+
+	page_ptr->set_start(clock());
+
 	visited_pages.insert(page_ptr);
 
 	view->setWindowTitle(s);

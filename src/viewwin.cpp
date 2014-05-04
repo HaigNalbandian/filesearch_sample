@@ -37,6 +37,7 @@ ViewWin::ViewWin(QWidget *parent) : QWidget(parent)
 
 	QObject::connect(outgoing, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(linkClicked(QListWidgetItem*)));
 	QObject::connect(incoming, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(linkClicked(QListWidgetItem*)));
+	QObject::connect(outgoing, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(
 
 	setLayout(mainLayout);
 }
@@ -95,6 +96,7 @@ void ViewWin::linkClicked(QListWidgetItem* item)
 	QString s = item->text();
 	string str = s.toStdString();
 	WebPage* page_ptr = (my_map.find(str))->second;
+	page_ptr->set_start(clock());
 	visited_pages->insert(page_ptr);
 
 	clearWin();

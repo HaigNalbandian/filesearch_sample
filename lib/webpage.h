@@ -33,9 +33,15 @@ class WebPage {
     SmartSet<WebPage*> allOutgoingLinks() {return outgoingLinks;}
     double get_pr();
     void set_pr(double pr);
+    void set_start(clock_t begin);
+    void set_finish(clock_t closing);
+    void set_time_on_page();
 
   private:
    //PRIVATE VARIABLES
+    static double total_time;
+    clock_t start, finish;
+    double time_on_page;
    set<string> wordBank;
    string _filename;
    SmartSet<WebPage*> incomingLinks;
