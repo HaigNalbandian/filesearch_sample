@@ -8,6 +8,7 @@
 #include <QRadioButton>
 #include <QLineEdit>
 #include <iostream>
+#include <ctime>
 #include "engine.h"
 #include "msort.h"
 
@@ -185,7 +186,7 @@ void MainWin::itemClicked(QListWidgetItem* item)
 	
 	WebPage* page_ptr = (filename_to_page.find(str))->second;
 
-	page_ptr->set_start(clock());
+	page_ptr->set_start(time(0));
 
 	visited_pages.insert(page_ptr);
 
@@ -257,7 +258,18 @@ void MainWin::rank_pages(SmartSet<WebPage*>& s)
 			(*it)->set_pr(sums.front());
 			sums.erase(sums.begin());
 		}
-	}// end iterative for
+	}// end iterative for		
+	for (SmartSet<WebPage*>::iterator it = s.begin(); it != s.end(); ++it){
+		WebPage* curr_page = (*it);
+		double old_pr = curr_page->get_pr();
+		double frac = curr_page->get_time_fraction();
+		double new_pr = old_pr + (old_pr * frac);
+		/*if (frac > 0.000001){	
+			cout << "Time frac: " << frac << endl;
+			cout << "Old PR was " << old_pr << endl << "New PR is " << new_pr << endl;
+		}*/
+		curr_page->set_pr(new_pr);
+	}
 
 	/*//print out page ranks to console
 	cout << "Page Ranks for Most Recent Search" << endl << "---------------------------" << endl;

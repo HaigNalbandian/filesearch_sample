@@ -4,6 +4,7 @@
 #include <QCloseEvent>
 #include <iostream>
 #include <sstream>
+#include <ctime>
 
 using namespace std;
 
@@ -97,12 +98,12 @@ void ViewWin::linkClicked(QListWidgetItem* item)
 	QString window_title = this->windowTitle();
 	string win_title = window_title.toStdString();
 	WebPage* old_page = my_map.find(win_title)->second;
-	old_page->set_finish(clock());
+	old_page->set_finish(time(0));
 
 	QString s = item->text();
 	string str = s.toStdString();
 	WebPage* page_ptr = (my_map.find(str))->second;
-	page_ptr->set_start(clock());
+	page_ptr->set_start(time(0));
 	visited_pages->insert(page_ptr);
 
 	clearWin();
@@ -124,11 +125,10 @@ void ViewWin::grab_visited_pages(set<WebPage*>* s){
    	QString window_title = this->windowTitle();
 	string win_title = window_title.toStdString();
 	WebPage* old_page = my_map.find(win_title)->second;
-	old_page->set_finish(clock());
+	old_page->set_finish(time(0));
     }
 void ViewWin::closeEvent(QCloseEvent* event)
 {
-  cout<<"Here?"<<endl;
   writeOutTime();
   event->accept();
 }
