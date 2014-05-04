@@ -42,7 +42,7 @@ class WebPage {
   private:
    //PRIVATE VARIABLES
     static double total_time;
-    time_t start, finish;
+    clock_t start, finish;
    double time_fraction;
    double cumulative_time_on_page;
    set<string> wordBank;
