@@ -1,6 +1,7 @@
 #include "viewwin.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QCloseEvent>
 #include <iostream>
 #include <sstream>
 
@@ -37,6 +38,7 @@ ViewWin::ViewWin(QWidget *parent) : QWidget(parent)
 
 	QObject::connect(outgoing, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(linkClicked(QListWidgetItem*)));
 	QObject::connect(incoming, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(linkClicked(QListWidgetItem*)));
+	//QObject::connect(this, SIGNAL(closeEvent(QCloseEvent*)), this, SLOT(writeOutTime()));
 
 	setLayout(mainLayout);
 }
@@ -116,4 +118,17 @@ void ViewWin::grab_map(map<string, WebPage*> m){
 
 void ViewWin::grab_visited_pages(set<WebPage*>* s){
 	visited_pages = s;
+}
+
+ void ViewWin::writeOutTime(){
+   	QString window_title = this->windowTitle();
+	string win_title = window_title.toStdString();
+	WebPage* old_page = my_map.find(win_title)->second;
+	old_page->set_finish(clock());
+    }
+void ViewWin::closeEvent(QCloseEvent* event)
+{
+  cout<<"Here?"<<endl;
+  writeOutTime();
+  event->accept();
 }

@@ -21,9 +21,11 @@ class ViewWin : public QWidget
 		void populate(WebPage*);
 		void grab_map(map<string, WebPage*>);
 		void grab_visited_pages(set<WebPage*>*);
+		void closeEvent(QCloseEvent*);
 		~ViewWin();
 	private slots:
 		void linkClicked(QListWidgetItem*);
+			void writeOutTime();
 
 	private:
 		QTextEdit* display;
