@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     
   MainWin window(argv[1], argv[2], argv[3]);
   
-  window.setWindowTitle("Eshed's Fabulous Search Engine");
+  window.setWindowTitle("CS104 Team 123 Search Engine");
   window.show();
 
   return app.exec();
