@@ -118,7 +118,7 @@ MainWin::~MainWin()
 
 void MainWin::showAbout()
 {
-	QMessageBox::information(this, tr("About"), tr("Created by Eshed Margalit, 2014"));
+	QMessageBox::information(this, tr("About"), tr("Search Engine created by CS104 Team 123, 2014"));
 }
 
 void MainWin::searchClicked(){
