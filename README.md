@@ -15,6 +15,8 @@ Details of our Project:
 
 Compile using the ' make' command. C++11 is needed for our implementation.
 
+Run using ./team_project_123 [index file] [advertiser input] [advertiser output]
+
 Part 1:
 
 We store the advertisers in a hash table where the name of the advertiser is the key and a pointer to the advertiser's information (of advertiser class) is the value. In this class we stored bids for words and their owed total.
