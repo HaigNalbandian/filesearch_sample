@@ -124,7 +124,10 @@ void MainWin::showAbout()
 void MainWin::searchClicked(){
 	list->clear();
 	QString query = queryText->text();
+	if(!wordList.contains(query,Qt::CaseInsensitive))
+	  {
 	wordList << query;
+	  }
 
 	model->setStringList(wordList);
 	completer->setModel(model);
@@ -319,6 +322,7 @@ void MainWin::parseAdvertisers(char* input)
 		}
 		unordered_map<string, Advertiser*>::iterator it = advertisers.find(full_name);
 		if (it != advertisers.end()){
+		  //if advertiser already exists
 			Advertiser* ptr_to_advertiser = it->second;
 			ptr_to_advertiser->add_ad(keyword, bid);	
 		}
